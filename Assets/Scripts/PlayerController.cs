@@ -12,21 +12,44 @@ public class PlayerController : MonoBehaviour
     private Vector2 movimientoInput;
     private bool saltoInput;
 
+    private CustomControls inputControls;
+
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        inputControls = new CustomControls();
+    }
+
+    private void OnEnable()
+    {
+        // Activa el Action Map "Player"
+        inputControls.Player.Enable(); 
+
+        // Suscribirse a los eventos de input
+        inputControls.Player.Move.performed += OnMove;
+        inputControls.Player.Move.canceled += OnMove;
+        inputControls.Player.Jump.performed += OnJump;
+    }
+
+    private void OnDisable()
+    {
+        // Desactiva el Action Map "Player"
+        inputControls.Player.Disable();  
+
+        // Desuscribirse de los eventos de input
+        inputControls.Player.Move.performed -= OnMove;
+        inputControls.Player.Move.canceled -= OnMove;
+        inputControls.Player.Jump.performed -= OnJump;
     }
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        // Almacena el valor del movimiento cuando se recibe el input
         movimientoInput = context.ReadValue<Vector2>();
     }
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        // Detecta si el botón de salto ha sido presionado
-        if (context.performed && rb.velocity.y == 0)  // Solo si está en el suelo
+        if (context.performed && rb.velocity.y == 0)
         {
             saltoInput = true;
         }
@@ -34,15 +57,13 @@ public class PlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Mover el jugador en el eje X y Z (izquierda/derecha/adelante/atrás)
         Vector3 mover = new Vector3(movimientoInput.x, 0, movimientoInput.y) * velocidadMovimiento * Time.fixedDeltaTime;
         rb.MovePosition(rb.position + mover);
 
-        // Saltar si el botón de salto fue presionado
         if (saltoInput)
         {
             rb.AddForce(Vector3.up * potenciaSalto, ForceMode.Impulse);
-            saltoInput = false; // Reinicia el valor para evitar saltos continuos
+            saltoInput = false;
         }
     }
 
@@ -50,5 +71,4 @@ public class PlayerController : MonoBehaviour
     {
         velocidadMovimiento = nuevaVelocidad;
     }
-
 }
