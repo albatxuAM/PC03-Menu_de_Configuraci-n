@@ -23,23 +23,23 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         // Activa el Action Map "Player"
-        inputControls.Player.Enable(); 
+        inputControls.PlayerInput.Enable(); 
 
         // Suscribirse a los eventos de input
-        inputControls.Player.Move.performed += OnMove;
-        inputControls.Player.Move.canceled += OnMove;
-        inputControls.Player.Jump.performed += OnJump;
+        inputControls.PlayerInput.Move.performed += OnMove;
+        inputControls.PlayerInput.Move.canceled += OnMove;
+        inputControls.PlayerInput.Jump.performed += OnJump;
     }
 
     private void OnDisable()
     {
         // Desactiva el Action Map "Player"
-        inputControls.Player.Disable();  
+        inputControls.PlayerInput.Disable();  
 
         // Desuscribirse de los eventos de input
-        inputControls.Player.Move.performed -= OnMove;
-        inputControls.Player.Move.canceled -= OnMove;
-        inputControls.Player.Jump.performed -= OnJump;
+        inputControls.PlayerInput.Move.performed -= OnMove;
+        inputControls.PlayerInput.Move.canceled -= OnMove;
+        inputControls.PlayerInput.Jump.performed -= OnJump;
     }
 
     public void OnMove(InputAction.CallbackContext context)
