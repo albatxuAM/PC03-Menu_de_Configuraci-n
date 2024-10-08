@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnJump(InputAction.CallbackContext context)
     {
-        if (context.performed && rb.velocity.y == 0)
+        if (context.performed && rb.velocity.normalized.y == 0)
         {
             saltoInput = true;
         }
