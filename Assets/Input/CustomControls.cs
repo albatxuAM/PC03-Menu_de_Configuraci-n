@@ -121,12 +121,12 @@ public partial class @CustomControls: IInputActionCollection2, IDisposable
             ""actions"": [
                 {
                     ""name"": ""Pause"",
-                    ""type"": ""Value"",
+                    ""type"": ""Button"",
                     ""id"": ""429aa550-f6f0-469c-a4da-1320cc0315ec"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [

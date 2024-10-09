@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,34 +10,31 @@ public class PlayerController : MonoBehaviour
     private Vector2 movimientoInput;
     private bool saltoInput;
 
-    private CustomControls inputControls;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        inputControls = new CustomControls();
     }
 
     private void OnEnable()
     {
         // Activa el Action Map "Player"
-        inputControls.PlayerInput.Enable(); 
+        InputManager.inputControls.PlayerInput.Enable();
 
         // Suscribirse a los eventos de input
-        inputControls.PlayerInput.Move.performed += OnMove;
-        inputControls.PlayerInput.Move.canceled += OnMove;
-        inputControls.PlayerInput.Jump.performed += OnJump;
+        InputManager.inputControls.PlayerInput.Move.performed += OnMove;
+        InputManager.inputControls.PlayerInput.Move.canceled += OnMove;
+        InputManager.inputControls.PlayerInput.Jump.performed += OnJump;
     }
 
     private void OnDisable()
     {
         // Desactiva el Action Map "Player"
-        inputControls.PlayerInput.Disable();  
+        InputManager.inputControls.PlayerInput.Disable();
 
         // Desuscribirse de los eventos de input
-        inputControls.PlayerInput.Move.performed -= OnMove;
-        inputControls.PlayerInput.Move.canceled -= OnMove;
-        inputControls.PlayerInput.Jump.performed -= OnJump;
+        InputManager.inputControls.PlayerInput.Move.performed -= OnMove;
+        InputManager.inputControls.PlayerInput.Move.canceled -= OnMove;
+        InputManager.inputControls.PlayerInput.Jump.performed -= OnJump;
     }
 
     public void OnMove(InputAction.CallbackContext context)

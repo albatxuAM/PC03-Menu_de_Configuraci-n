@@ -6,19 +6,28 @@ public class PauseMenu : MonoBehaviour
     public GameObject menuPausa;
     private bool juegoPausado = false;
 
-    void Update()
+    private void Awake()
     {
-        if (Keyboard.current.escapeKey.wasPressedThisFrame)
-        {
-            if (juegoPausado)
-            {
-                Reanudar();
-            }
-            else
-            {
-                Pausar();
-            }
-        }
+       
+        Reanudar();
+    }
+
+    private void OnEnable()
+    {
+        // Activa el Action Map "PauseInput"
+        InputManager.inputControls.PauseInput.Enable();
+
+        // Suscribirse a la acción de Pausa
+        InputManager.inputControls.PauseInput.Pause.performed += OnPause;
+    }
+
+    private void OnDisable()
+    {
+        // Desactiva el Action Map "PauseInput"
+        InputManager.inputControls.PauseInput.Disable();
+
+        // Suscribirse a la acción de Pausa
+        InputManager.inputControls.PauseInput.Pause.performed -= OnPause;
     }
 
     public void Reanudar()
@@ -37,6 +46,23 @@ public class PauseMenu : MonoBehaviour
 
     public void SalirDelJuego()
     {
-        Application.Quit();
+        #if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+        #else
+            Application.Quit();
+        #endif
+    }
+
+    // Función llamada cuando se presiona la tecla de pausa
+    private void OnPause(InputAction.CallbackContext context)
+    {
+        if (juegoPausado)
+        {
+            Reanudar();
+        }
+        else
+        {
+            Pausar();
+        }
     }
 }
