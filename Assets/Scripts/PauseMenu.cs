@@ -1,68 +1,65 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PauseMenu : MonoBehaviour
 {
-    public GameObject menuPausa;
-    private bool juegoPausado = false;
+    public GameObject pauseMenu;
+
+    private bool isPaused = false;
+
+    private PauseControls inputControls;
 
     private void Awake()
     {
-       
-        Reanudar();
+        // Crear una instancia del archivo Input Actions
+        inputControls = new PauseControls();
+
+        // Desactivar el menú de pausa al inicio
+        pauseMenu.SetActive(false);
     }
 
     private void OnEnable()
     {
         // Activa el Action Map "PauseInput"
-        InputManager.inputControls.PauseInput.Enable();
+        inputControls.PauseInput.Enable();
 
         // Suscribirse a la acción de Pausa
-        InputManager.inputControls.PauseInput.Pause.performed += OnPause;
+        inputControls.PauseInput.Pause.performed += OnPause;
+
     }
 
     private void OnDisable()
     {
         // Desactiva el Action Map "PauseInput"
-        InputManager.inputControls.PauseInput.Disable();
+        inputControls.PauseInput.Disable();
 
-        // Suscribirse a la acción de Pausa
-        InputManager.inputControls.PauseInput.Pause.performed -= OnPause;
+        // Desuscribirse a la acción de Pausa
+        inputControls.PauseInput.Pause.performed -= OnPause;
     }
 
-    public void Reanudar()
+    public void OnPause(InputAction.CallbackContext context)
     {
-        menuPausa.SetActive(false);
-        Time.timeScale = 1f;  // Reanuda el tiempo
-        juegoPausado = false;
-    }
-
-    public void Pausar()
-    {
-        menuPausa.SetActive(true);
-        Time.timeScale = 0f;  // Pausa el tiempo
-        juegoPausado = true;
-    }
-
-    public void SalirDelJuego()
-    {
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
-    }
-
-    // Función llamada cuando se presiona la tecla de pausa
-    private void OnPause(InputAction.CallbackContext context)
-    {
-        if (juegoPausado)
-        {
-            Reanudar();
-        }
+        if (isPaused)
+            ResumeGame();
         else
-        {
-            Pausar();
-        }
+            PauseGame();
+    }
+
+    public void PauseGame()
+    {
+        isPaused = true;
+        // Pausa el tiempo
+        Time.timeScale = 0f;
+        pauseMenu.SetActive(true);
+    }
+
+    public void ResumeGame()
+    {
+        isPaused = false;
+        // Reanuda el tiempo
+        Time.timeScale = 1f;
+        pauseMenu.SetActive(false);
     }
 }

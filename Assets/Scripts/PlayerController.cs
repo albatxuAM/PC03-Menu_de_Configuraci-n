@@ -10,31 +10,36 @@ public class PlayerController : MonoBehaviour
     private Vector2 movimientoInput;
     private bool saltoInput;
 
+    private CustomControls inputControls;
+
     private void Awake()
     {
+        // Crear una instancia del archivo Input Actions
+        inputControls = new CustomControls();
+
         rb = GetComponent<Rigidbody>();
     }
 
     private void OnEnable()
     {
         // Activa el Action Map "Player"
-        InputManager.inputControls.PlayerInput.Enable();
+        inputControls.PlayerInput.Enable();
 
         // Suscribirse a los eventos de input
-        InputManager.inputControls.PlayerInput.Move.performed += OnMove;
-        InputManager.inputControls.PlayerInput.Move.canceled += OnMove;
-        InputManager.inputControls.PlayerInput.Jump.performed += OnJump;
+        inputControls.PlayerInput.Move.performed += OnMove;
+        inputControls.PlayerInput.Move.canceled += OnMove;
+        inputControls.PlayerInput.Jump.performed += OnJump;
     }
 
     private void OnDisable()
     {
         // Desactiva el Action Map "Player"
-        InputManager.inputControls.PlayerInput.Disable();
+        inputControls.PlayerInput.Disable();
 
         // Desuscribirse de los eventos de input
-        InputManager.inputControls.PlayerInput.Move.performed -= OnMove;
-        InputManager.inputControls.PlayerInput.Move.canceled -= OnMove;
-        InputManager.inputControls.PlayerInput.Jump.performed -= OnJump;
+        inputControls.PlayerInput.Move.performed -= OnMove;
+        inputControls.PlayerInput.Move.canceled -= OnMove;
+        inputControls.PlayerInput.Jump.performed -= OnJump;
     }
 
     public void OnMove(InputAction.CallbackContext context)
