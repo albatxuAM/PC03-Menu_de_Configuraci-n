@@ -12,6 +12,8 @@ public class PlayerController : MonoBehaviour
 
     private CustomControls inputControls;
 
+    public PauseMenuController pauseMenuController;
+
     private void Awake()
     {
         // Crear una instancia del archivo Input Actions
@@ -29,6 +31,11 @@ public class PlayerController : MonoBehaviour
         inputControls.PlayerInput.Move.performed += OnMove;
         inputControls.PlayerInput.Move.canceled += OnMove;
         inputControls.PlayerInput.Jump.performed += OnJump;
+
+        // Activa el Action Map "Pause"
+        inputControls.PauseInput.Enable();
+
+        inputControls.PauseInput.Pause.performed += pauseMenuController.OnPause;
     }
 
     private void OnDisable()
@@ -40,6 +47,11 @@ public class PlayerController : MonoBehaviour
         inputControls.PlayerInput.Move.performed -= OnMove;
         inputControls.PlayerInput.Move.canceled -= OnMove;
         inputControls.PlayerInput.Jump.performed -= OnJump;
+
+        // Activa el Action Map "Pause"
+        inputControls.PauseInput.Disable();
+
+        inputControls.PauseInput.Pause.performed -= pauseMenuController.OnPause;
     }
 
     public void OnMove(InputAction.CallbackContext context)

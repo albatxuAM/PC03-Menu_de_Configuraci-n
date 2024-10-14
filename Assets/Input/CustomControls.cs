@@ -133,7 +133,7 @@ public partial class @CustomControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""834cd550-484a-4aae-be38-3ce9c812bd7c"",
-                    ""path"": ""<Keyboard>/enter"",
+                    ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
