@@ -83,4 +83,19 @@ public class PlayerController : MonoBehaviour
     {
         velocidadMovimiento = nuevaVelocidad;
     }
+
+    public float GetVelocidad()
+    {
+        return velocidadMovimiento;
+    }
+
+    public void CambiarSalto(float nuevoSalto)
+    {
+        potenciaSalto = nuevoSalto;
+    }
+
+    public float GetSalto()
+    {
+        return potenciaSalto;
+    }
 }
